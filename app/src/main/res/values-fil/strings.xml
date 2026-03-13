@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Crop Samarica</string>
+    <string name="hello_world">Kamusta</string>
+    <string name="skip">Laktawan</string>
+    <string name="manage">Pamahalaan ang iyong taniman ng palay saan mang sulok ng mundo.</string>
+    <string name="welcome_title">Ang Iyong Digital Kaagapay sa Palayan</string>
+    <string name="welcome_description">Subaybayan ang iyong mga tanim na palay nang may katumpakan. I-track ang mga yugto ng paglago, i-optimize ang ani, at gumawa ng mas matalinong desisyon sa pagsasaka.</string>
+    <string name="get_started">Simulan</string>
+    <string name="plan_title">Magplano at Subaybayan ang mga Gawain sa Bukid</string>
+    <string name="plan_description">Maging organisado sa pag-schedule ng pagdidilig, pagpapabunga, at pagkontrol ng peste. Tumanggap ng paalala at subaybayan ang pang-araw-araw na aktibidad ng iyong bukid nang mahusay.</string>
+    <string name="back">Bumalik</string>
+    <string name="next">Susunod</string>
+    <string name="sign_in_with_google">Mag-sign in gamit ang Google</string>
+    <string name="or">o</string>
+    <string name="login">Mag-login</string>
+    <string name="password">Password</string>
+    <string name="continue_with_google">Magpatuloy gamit ang Google</string>
+    <string name="register">Magrehistro</string>
+    <string name="confirm_password">Kumpirmahin ang Password</string>
+    <string name="email">Email</string>
+    <string name="name">Pangalan</string>
+    <string name="current_task">Kasalukuyang Gawain</string>
+    <string name="no_task_found">Walang Natagpuang Gawain</string>
+    <string name="edit_task">I-edit ang Gawain</string>
+    <string name="title_is_required">Kinakailangan ang Pamagat</string>
+    <string name="title">Pamagat</string>
+    <string name="description">Deskripsyon</string>
+    <string name="save_changes">I-save ang mga Pagbabago</string>
+    <string name="next_stage">Susunod na Yugto</string>
+    <string name="your_crop_is_ready_for_next_stage">Handa na ang iyong tanim para sa susunod na yugto</string>
+    <string name="no_rice_fields_found">Walang natagpuang taniman ng palay</string>
+    <string name="create_a_new_rice_field_to_get_started">Gumawa ng bagong taniman ng palay upang magsimula</string>
+    <string name="create">Gumawa</string>
+    <string name="no_field_selected">Walang napiling taniman</string>
+    <string name="delete">Tanggalin</string>
+    <string name="home">Bahay</string>
+    <string name="pest_and_diseases">Peste at mga Sakit</string>
+    <string name="task">Gawain</string>
+    <string name="edit">I-edit</string>
+    <string name="getting_user_info">Kinukuha ang impormasyon ng user...</string>
+    <string name="no_user_found">Walang natagpuang user</string>
+    <string name="user_menu">MENU NG USER</string>
+    <string name="others">IBA PA</string>
+    <string name="user_guide">Gabay sa Paggamit</string>
+    <string name="developers">Mga Developer</string>
+    <string name="logout">Mag-logout</string>
+    <string name="settings">Mga Setting</string>
+
+    <string name="select_language">Pumili ng Linguahe</string>
+</resources>

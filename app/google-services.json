@@ -1,0 +1,113 @@
+{
+  "project_info": {
+    "project_number": "645209843621",
+    "project_id": "crop-samarica",
+    "storage_bucket": "crop-samarica.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645209843621:android:a495119457c3c5b7246a4c",
+        "android_client_info": {
+          "package_name": "com.jmballangca.cropsamarica"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "645209843621-i0g93kjmh8stdtvi9qpes3ifs2uuht6f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jmballangca.cropsamarica",
+            "certificate_hash": "9ba878ce937f8e0579eb600fcfab933327fee957"
+          }
+        },
+        {
+          "client_id": "645209843621-t1jjknju1p4r9vkruub9v0f5tlp4agvg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jmballangca.cropsamarica",
+            "certificate_hash": "da8fd32f6332ce985fc8b613b188b2a8198af4e7"
+          }
+        },
+        {
+          "client_id": "645209843621-7rgme5qpm9eevt208rr51h60umtbr8r6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoMCrILo6C8wCGANHa1ugjURcytPcQvUs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "645209843621-7rgme5qpm9eevt208rr51h60umtbr8r6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645209843621:android:3224ef40ea4bfd9e246a4c",
+        "android_client_info": {
+          "package_name": "com.potatodevcropsamarica"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "645209843621-7rgme5qpm9eevt208rr51h60umtbr8r6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoMCrILo6C8wCGANHa1ugjURcytPcQvUs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "645209843621-7rgme5qpm9eevt208rr51h60umtbr8r6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645209843621:android:b9ba2eec889e2a3e246a4c",
+        "android_client_info": {
+          "package_name": "com.potatodevs.cropsamarica"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "645209843621-7rgme5qpm9eevt208rr51h60umtbr8r6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoMCrILo6C8wCGANHa1ugjURcytPcQvUs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "645209843621-7rgme5qpm9eevt208rr51h60umtbr8r6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
