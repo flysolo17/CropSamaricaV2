@@ -22,14 +22,14 @@ import coil.compose.AsyncImage
 fun ProfileImage(
     modifier: Modifier = Modifier,
     name: String = "John Doe",
-    profile : String,
+    profile : String ?,
     imageSize : Dp = 48.dp,
     onClick : () -> Unit = {}
 ) {
     Box(
         modifier = modifier.size(imageSize)
             .background(
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.primary,
                 shape = CircleShape
             )
             .clip(CircleShape)
@@ -39,7 +39,7 @@ fun ProfileImage(
         ,
         contentAlignment = Alignment.Center
     ) {
-        if (profile.isNotEmpty()) {
+        if (!profile.isNullOrEmpty()) {
             AsyncImage(
                 model = profile,
                 modifier = Modifier.fillMaxSize(),
@@ -47,7 +47,10 @@ fun ProfileImage(
                 contentScale = ContentScale.Crop
             )
         } else {
-            Text(name.getOrElse(0, defaultValue = {'J'}).uppercase())
+            Text(
+                name.getOrElse(0, defaultValue = {'U'}).uppercase(),
+                color = MaterialTheme.colorScheme.onPrimary
+            )
         }
     }
 }

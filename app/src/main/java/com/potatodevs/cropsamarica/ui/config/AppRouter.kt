@@ -25,7 +25,23 @@ sealed interface AppRouter : NavKey {
         val type : AuthEventType = AuthEventType.LOGIN
     )
 
+    @Serializable
+    data object Settings : AppRouter
+
+    @Serializable
+    data object Notification : AppRouter
+
+    @Serializable
+    data class ViewNotification(
+        val id : String
+    ): AppRouter
+
     sealed interface Main : AppRouter {
+        @Serializable
+        data object CropReport: Main
+
+
+
         @Serializable
         data class Index(
             val uid : String
@@ -57,6 +73,8 @@ sealed interface AppRouter : NavKey {
         @Serializable
         data object UserNotFound : Main
 
+
+
     }
 
     @Serializable
@@ -69,6 +87,11 @@ sealed interface AppRouter : NavKey {
     data class SurveyScreen(
         val id : String
     )
+    @Serializable
+    data class Forecast(
+        val id : String
+    )
+
 }
 
 

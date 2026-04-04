@@ -15,7 +15,8 @@ import com.potatodevs.cropsamarica.ai.GENERATE_RECOMMENDATION
 import com.potatodevs.cropsamarica.ai.converters.asAnnouncement
 import com.potatodevs.cropsamarica.ai.converters.asFertilizerTasks
 import com.potatodevs.cropsamarica.ai.converters.asRecommendationToTasks
-import com.potatodevs.cropsamarica.datastore.LanguageDataStore
+
+import com.potatodevs.cropsamarica.datastore.LocaleManager
 import com.potatodevs.cropsamarica.models.announcement.Announcement
 import com.potatodevs.cropsamarica.models.fertilizer.fertilizerList
 import com.potatodevs.cropsamarica.models.rice.RiceField
@@ -27,6 +28,7 @@ import com.potatodevs.cropsamarica.models.weather.DailyForecast
 
 
 import com.potatodevs.cropsamarica.repositories.auth.AuthRepository
+import com.potatodevs.cropsamarica.utils.PHILRICE_URL
 import com.potatodevs.cropsamarica.utils.toDateOnly
 import jakarta.inject.Inject
 import kotlinx.coroutines.channels.awaitClose
@@ -48,7 +50,7 @@ class RiceFieldRepositoryImpl @Inject constructor(
     private val authRepository: AuthRepository,
     private val model : GenerativeModel,
     private val storage : FirebaseStorage,
-    private val languageDataStore: LanguageDataStore
+    private val localeManager: LocaleManager
 
 ): RiceFieldRepository {
     override fun getAllByUid(uid: String): Flow<List<RiceFieldWithRiceType>> = callbackFlow {
@@ -174,12 +176,12 @@ class RiceFieldRepositoryImpl @Inject constructor(
             val docRef = firestore.collection("rice_fields").document()
             riceField.uid = uid
             riceField.id = docRef.id
-            val languageCode = languageDataStore.languageFlow.first().lowercase()
+            val languageCode = localeManager.getSavedLanguageCode().first().lowercase()
             val fertilizerContext = fertilizerList.joinToString("\n") {
                 "- Stage: ${it.stage}, Action: ${it.amount} of ${it.type}, Timing: ${it.timing}, Purpose: ${it.purpose}"
             }
             val yield = riceField.getYield(selectedRiceType)
-            val text =                     """
+            val text = """
                                 ### INPUT DATA
                                 - Rice Field: ${riceField.name}
                                 - Location: ${riceField.location}, Mindoro
@@ -195,6 +197,11 @@ class RiceFieldRepositoryImpl @Inject constructor(
                                 ### FERTILIZER SCHEDULE (PhilRice Standard)
                                 $fertilizerContext
                                 
+                                ### KNOWLEDGE SOURCE (VERY IMPORTANT)
+                                - You have access to this trusted agricultural source: $PHILRICE_URL
+                                - Prefer guidance, practices, and recommendations aligned with PhilRice standards when applicable.
+                                - Use this source especially when identifying diseases, pest management, and fertilizer practices.
+            
                                 ### TASK
                                 Generate 3 rice farming recommendations based on the input data and weather.
                                 Generate a fertilizer application plan for the remaining stages based on the area size (${riceField.areaSize}).
@@ -303,6 +310,12 @@ class RiceFieldRepositoryImpl @Inject constructor(
             - Growth Stage: ${riceField.riceField?.stage}
             - Weather: ${forecast.condition}, High of ${forecast.highLow}°C
             
+            
+            ### KNOWLEDGE SOURCE (VERY IMPORTANT)
+            - You have access to this trusted agricultural source: $PHILRICE_URL
+            - Prefer guidance, practices, and recommendations aligned with PhilRice standards when applicable.
+            - Use this source especially when identifying diseases, pest management, and fertilizer practices.
+            
             Provide the response in English (en) and Tagalog (tl).
             Format as JSON:
             {
@@ -327,13 +340,13 @@ class RiceFieldRepositoryImpl @Inject constructor(
             fieldId = riceField.riceField?.id!!,
         ).copy(
             id = announcementRef.document().id,
-            date = today
+            date = today,
+            uid = riceField.riceField.uid
         )
 
         announcementRef.document(newAnnouncement.id)
             .set(newAnnouncement)
             .await()
-
         newAnnouncement
     }
 

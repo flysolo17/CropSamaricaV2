@@ -15,11 +15,13 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -98,10 +100,12 @@ fun SurveyScreen(
         )
     }
     SurveyScreen(
+        id = id,
         modifier = modifier,
         isLoading = state.isLoading,
         survey = state.survey,
         onBack = onBack,
+        selectedImages = state.selectedImage,
         questions = state.questionsWithAnswers,
         events = events
     )
@@ -112,6 +116,7 @@ fun SurveyScreen(
 fun SurveyScreen(
     modifier: Modifier = Modifier,
     isLoading: Boolean,
+    id : String,
     survey: QuestionState?,
     questions: List<QuestionWithAnswers> = emptyList(),
     selectedImages : List<Uri> = emptyList(),
@@ -136,38 +141,73 @@ fun SurveyScreen(
                 }
             )
         },
+        bottomBar = {
+            BottomAppBar(
+
+            ) {
+                Button(
+                    modifier = Modifier.fillMaxWidth().padding(8.dp),
+                    shape = MaterialTheme.shapes.medium,
+                    enabled = !isLoading && survey?.isLoading == false,
+                    onClick = {
+                        events(SurveyEvents.OnSubmit)
+                    }
+                ) {
+                    Box(
+                        modifier = Modifier
+
+                            .padding(8.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        if (isLoading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(24.dp)
+                            )
+                        } else {
+                            Text(text = "Submit")
+                        }
+                    }
+
+                }
+            }
+        },
         modifier = modifier
     ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
-                .padding(16.dp)
-            ,
+                .padding(it),
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             val generatingSurvey = survey?.isLoading
             if (generatingSurvey == true) {
                 item {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp),
-                        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(
-                            12.dp,
-                            androidx.compose.ui.Alignment.CenterVertically
-                        )
-                    ) {
-                        Text(text = "Generating Survey...")
-                        CircularProgressIndicator()
-                    }
+                    LinearProgressIndicator(
+                        modifier = Modifier.fillMaxWidth()
+                    )
                 }
             }
             if (survey?.error != null && generatingSurvey == false) {
                 item {
-                    Text(survey.error)
+                    Column(
+                        modifier = Modifier.fillMaxWidth().padding(16.dp),
+                        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(
+                            12.dp,
+                            Alignment.CenterVertically
+                        )
+                    ) {
+                        Text("Something went wrong", style = MaterialTheme.typography.titleLarge)
+                        Text(survey.error, style = MaterialTheme.typography.bodyMedium)
+                        Button(onClick = {
+                            events(SurveyEvents.OnGenerateSurvey(id))
+                        }) {
+                            Text("Retry")
+                        }
+                    }
+
                 }
             }
             item {
@@ -185,6 +225,7 @@ fun SurveyScreen(
                 when(question.question.type) {
                     QuestionType.MULTIPLE_CHOICE -> {
                         MultipleChoice(
+
                             question = question.question,
                             selectedAnswers = question.answer?.split(",") ?: emptyList(),
                             onAnswerSelected = {
@@ -247,10 +288,12 @@ fun SurveyScreen(
                     else -> {}
                 }
             }
-            if (survey?.isLoading == false) {
+            if (survey?.isLoading == false && survey.error == null) {
+
+
                 itemsIndexed(selectedImages, key = {index, _ -> index}) { index, uri ->
                     AsyncImage(
-                        modifier = Modifier.fillMaxWidth().height(
+                        modifier = Modifier.fillMaxWidth().padding(8.dp).height(
                             200.dp
                         ).clip(MaterialTheme.shapes.medium),
                         model = uri,
@@ -258,43 +301,14 @@ fun SurveyScreen(
                         contentScale = ContentScale.Crop
                     )
                 }
-
-
                 item {
                     ImagePicker(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().padding(8.dp),
                         selectedImageUri = null,
                         onImageSelected = {
                             events(SurveyEvents.OnImageChange(it))
                         }
                     )
-                }
-
-                item {
-                    Button(
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = MaterialTheme.shapes.medium,
-                        enabled = !isLoading && survey.isLoading == false,
-                        onClick = {
-                            events(SurveyEvents.OnSubmit)
-                        }
-                    ) {
-                        Box(
-                            modifier = Modifier
-
-                                .padding(8.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            if (isLoading) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier.size(24.dp)
-                                )
-                            } else {
-                                Text(text = "Submit")
-                            }
-                        }
-
-                    }
                 }
             }
         }

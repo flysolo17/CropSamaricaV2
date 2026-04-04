@@ -26,7 +26,7 @@ import com.potatodevs.cropsamarica.ui.theme.shimmer
 fun AnnouncementCard(
     modifier: Modifier = Modifier,
     isLoading : Boolean = false,
-    language : String = "en",
+    language : String,
     announcement: Announcement?,
 ) {
     val info = if (language == "en") announcement?.information?.en else announcement?.information?.tl
@@ -84,6 +84,7 @@ fun AnnouncementCard(
                 color = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier.align(Alignment.End)
             )
+
         }
 
     }
@@ -117,6 +118,7 @@ private fun AnnouncementCardPreview() {
     CropSamaricaTheme {
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             AnnouncementCard(
+                language = "en",
                 announcement = Announcement(
                     information = LocalizeAnnouncement(
                         en = AnnouncementInfo(
@@ -135,6 +137,7 @@ private fun AnnouncementCardPreview() {
             )
 
             AnnouncementCard(
+                language = "tl",
                 announcement = Announcement(
                     information = LocalizeAnnouncement(
                         en = AnnouncementInfo(
@@ -153,6 +156,7 @@ private fun AnnouncementCardPreview() {
             )
 
             AnnouncementCard(
+                language = "tl",
                 announcement = Announcement(
                     information = LocalizeAnnouncement(
                         en = AnnouncementInfo(

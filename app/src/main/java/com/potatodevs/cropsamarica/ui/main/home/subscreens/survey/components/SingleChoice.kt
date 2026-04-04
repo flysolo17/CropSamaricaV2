@@ -27,7 +27,7 @@ fun SingleChoice(
 ) {
 
     Card(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth().padding(8.dp)
     ) {
 
         Column(

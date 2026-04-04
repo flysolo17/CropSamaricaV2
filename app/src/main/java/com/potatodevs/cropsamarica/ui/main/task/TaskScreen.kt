@@ -16,6 +16,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
@@ -27,11 +28,13 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.autofill.ContentDataType.Companion.Text
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.potatodevs.cropsamarica.R
 import com.potatodevs.cropsamarica.models.rice.RiceFieldWithRiceType
 import com.potatodevs.cropsamarica.models.tasks.Task
 import com.potatodevs.cropsamarica.ui.common.LoadingScreen
@@ -126,7 +129,7 @@ fun TaskScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "My Tasks", style = MaterialTheme.typography.titleMedium)
+                Text(text = stringResource(R.string.task), style = MaterialTheme.typography.titleMedium)
                 CreateTaskBottomSheet(
                     riceFields = riceFields.mapNotNull { it.riceField },
                     onSave = { task, result ->

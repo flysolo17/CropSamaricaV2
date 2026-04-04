@@ -13,9 +13,7 @@ plugins {
 
 android {
     namespace = "com.potatodevs.cropsamarica"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
 
     defaultConfig {
@@ -68,6 +66,7 @@ dependencies {
     implementation(libs.androidx.compose.animation)
     implementation(libs.firebase.ai)
     implementation(libs.androidx.compose.ui.text.google.fonts)
+    implementation(libs.firebase.messaging)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -105,10 +104,10 @@ dependencies {
 
 
 
-    implementation("com.squareup.retrofit2:retrofit:3.0.0")
-    implementation("com.squareup.retrofit2:converter-gson:3.0.0")
-    implementation("com.squareup.okhttp3:okhttp:5.3.2")
-    implementation("com.squareup.okhttp3:logging-interceptor:5.3.2")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
 
 
 }

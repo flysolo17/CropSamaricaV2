@@ -24,6 +24,7 @@ data class Announcement(
     val id : String = "",
     val information : LocalizeAnnouncement = LocalizeAnnouncement(),
     val fieldId : String = "",
+    val uid : String = "",
     val date : String = "",
     val createdAt : Long = System.currentTimeMillis(),
     val updatedAt : Long = System.currentTimeMillis()

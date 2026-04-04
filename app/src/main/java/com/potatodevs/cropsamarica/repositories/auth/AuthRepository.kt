@@ -5,6 +5,7 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.PhoneAuthProvider
 import com.potatodevs.cropsamarica.models.User
+import kotlinx.coroutines.flow.Flow
 
 enum class AuthEventType {
     LOGIN,
@@ -43,4 +44,6 @@ interface AuthRepository {
 
 
     suspend fun logout(): Result<String>
+
+     fun listenToUser() : Flow<User?>
 }

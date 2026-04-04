@@ -35,6 +35,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -58,9 +61,12 @@ fun MainScreen(
     uid : String,
     onCreateRiceFIeld: () -> Unit,
     onViewProfile : () -> Unit,
+    onWeatherClick: (id: String) -> Unit,
     onLogout : () -> Unit,
     onViewCropReport : (id : String) -> Unit,
-    onNextStage : (id : String) -> Unit
+    onNextStage : (id : String) -> Unit,
+    onViewPestDetails : (String) -> Unit,
+    navigateToNotification : () -> Unit
 ) {
     val viewModel : MainViewModel = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -79,7 +85,10 @@ fun MainScreen(
         riceFields = state.riceFields,
         onViewCropReport = onViewCropReport,
         onNextStage = onNextStage,
-        mainEvents = events
+        mainEvents = events,
+        onWeatherClick = onWeatherClick,
+        onViewPestDetails = onViewPestDetails,
+        navigateToNotification = navigateToNotification
     )
 }
 @OptIn(ExperimentalMaterial3Api::class)
@@ -95,8 +104,12 @@ fun MainScreen(
     riceFields : List<RiceFieldWithRiceType>,
     onViewCropReport: (id: String) -> Unit,
     onNextStage: (id: String) -> Unit,
-    mainEvents: (MainEvents) -> Unit = {}
-) {
+    onViewPestDetails : (String) -> Unit = {},
+    mainEvents: (MainEvents) -> Unit = {},
+    onWeatherClick : (id : String) -> Unit = {},
+    navigateToNotification : () -> Unit = {}
+   )
+ {
 
     val navigationState = rememberNavigationState(
         startRoute = AppRouter.Main.Dashboard,
@@ -114,14 +127,18 @@ fun MainScreen(
     }
     val entryProvider = entryProvider {
         mainFeatureSection(
+            navigateToNotification = navigateToNotification,
             mainViewModel = mainViewModel,
             onCreateRiceField = onCreateRiceFIeld,
             onViewProfile = onViewProfile,
             onBack = { navigator.goBack() },
-            onViewDetails = { navigator.navigate(AppRouter.Main.PestDetails(id = it)) },
+            onViewDetails =onViewPestDetails,
             toggleDrawer = { onToggleDrawer() },
             onViewCropReport = onViewCropReport,
-            onNextStage = onNextStage
+            onNextStage = onNextStage,
+            onNavigateToWeather = {
+                    onWeatherClick(it)
+            }
         )
     }
     ModalNavigationDrawer(
@@ -189,10 +206,10 @@ fun MainScreen(
                                 icon = {
                                     Icon(
                                         imageVector = value.icon,
-                                        contentDescription = value.label
+                                        contentDescription = stringResource(id = value.label)
                                     )
                                 },
-                                label = { Text(value.label) }
+                                label = { Text(stringResource(id = value.label), textAlign = TextAlign.Center,maxLines = 1, overflow = TextOverflow.Ellipsis) }
                             )
                         }
                     }

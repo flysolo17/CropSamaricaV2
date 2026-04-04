@@ -24,8 +24,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.potatodevs.cropsamarica.R
 import com.potatodevs.cropsamarica.ui.theme.CropSamaricaTheme
 import com.potatodevs.cropsamarica.ui.utils.UIState
 import com.potatodevs.cropsamarica.ui.utils.showToast
@@ -50,12 +52,14 @@ fun EditProfile(
             },
         ) {
             Column(
-                modifier = modifier.fillMaxWidth().padding(16.dp),
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
                 verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(16.dp),
                 horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
             ) {
                 Text(
-                    "Edit Profile",
+                    stringResource(R.string.edit_profile),
 
                 )
                 OutlinedTextField(
@@ -112,7 +116,7 @@ fun EditProfile(
     }
     ProfileButtons(
         icon = Icons.Filled.Edit,
-        title = "Edit Profile",
+        title = stringResource(R.string.edit_profile),
         onClick = {
             open = !open
         }

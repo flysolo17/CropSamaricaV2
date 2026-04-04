@@ -13,6 +13,7 @@ import com.potatodevs.cropsamarica.models.rice.RiceField
 import com.potatodevs.cropsamarica.models.rice.RiceFieldWithRiceType
 import com.potatodevs.cropsamarica.ui.config.AppRouter
 import com.potatodevs.cropsamarica.ui.main.MainViewModel
+import com.potatodevs.cropsamarica.ui.main.crop_report.CropReportScreen
 import com.potatodevs.cropsamarica.ui.main.home.HomeScreen
 import com.potatodevs.cropsamarica.ui.main.pest.PestScreen
 import com.potatodevs.cropsamarica.ui.main.pest.details.PestAndDiseaseDetailScreen
@@ -27,8 +28,10 @@ fun EntryProviderScope<NavKey>.mainFeatureSection(
     onBack: () -> Unit,
     onViewDetails : (String) -> Unit,
     toggleDrawer : () -> Unit,
+    onNavigateToWeather : (id : String) -> Unit,
     onViewCropReport : (id : String) -> Unit,
-    onNextStage : (id : String) -> Unit
+    onNextStage : (id : String) -> Unit,
+    navigateToNotification : () -> Unit
 ) {
     entry<AppRouter.Main.Dashboard> {
 
@@ -36,11 +39,17 @@ fun EntryProviderScope<NavKey>.mainFeatureSection(
         val context = LocalContext.current
 
         HomeScreen(
+            navigateToNotification = navigateToNotification,
+
+            user = state.user,
+            navigateToWeather = {
+                onNavigateToWeather(it)
+            },
+
             navigateToCropReports = onViewCropReport,
             toggleDrawer = toggleDrawer,
             isLoading = state.isLoading,
             onViewProfile = onViewProfile,
-            riceFields = state.riceFields,
             onCreateRiceField = onCreateRiceField,
             selectedRiceField = state.selectedRiceField,
             onNextStage = onNextStage
@@ -56,12 +65,15 @@ fun EntryProviderScope<NavKey>.mainFeatureSection(
     entry<AppRouter.Main.Task> { key ->
         TaskScreen()
     }
+    entry<AppRouter.Main.CropReport> { key ->
 
-    entry<AppRouter.Main.PestDetails> { pestDetails ->
-        PestAndDiseaseDetailScreen(
-            id = pestDetails.id,
-            onBack = onBack,
+        val state by mainViewModel.state.collectAsStateWithLifecycle()
+        CropReportScreen(
+            user = state.user,
+            riceFields = state.riceFields
         )
     }
+
+
 
 }

@@ -208,4 +208,26 @@ class TaskRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
+
+    override suspend fun getFertilizerTasks(ids: List<String>): Result<List<Task>> {
+        return try {
+            if (ids.isEmpty()) {
+                return Result.success(emptyList())
+            }
+            val tasks = taskRef
+                .whereIn("fieldId", ids)
+                .whereEqualTo("fertilizer",true)
+                .orderBy("startDate", Query.Direction.ASCENDING)
+                .get()
+                .await()
+                .toObjects<Task>()
+            Result.success(tasks)
+        } catch (e: Exception) {
+            Log.d(
+                "TaskRepositoryImpl",
+                "getFertilizerApplications: ${e.message}"
+            )
+            Result.failure(e)
+        }
+    }
 }

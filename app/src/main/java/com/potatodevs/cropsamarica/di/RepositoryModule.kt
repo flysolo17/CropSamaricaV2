@@ -1,9 +1,15 @@
 package com.potatodevs.cropsamarica.di
 
+import com.potatodevs.cropsamarica.datastore.LocaleManager
+import com.potatodevs.cropsamarica.datastore.LocaleManagerImpl
 import com.potatodevs.cropsamarica.repositories.auth.AuthRepository
 import com.potatodevs.cropsamarica.repositories.auth.AuthRepositoryImpl
+import com.potatodevs.cropsamarica.repositories.notification.NotificationRepository
+import com.potatodevs.cropsamarica.repositories.notification.NotificationRepositoryImpl
 import com.potatodevs.cropsamarica.repositories.pests.PestRepository
 import com.potatodevs.cropsamarica.repositories.pests.PestRepositoryImpl
+import com.potatodevs.cropsamarica.repositories.reminder.ReminderRepository
+import com.potatodevs.cropsamarica.repositories.reminder.ReminderRepositoryImpl
 import com.potatodevs.cropsamarica.repositories.riceTypes.RiceTypeRepository
 import com.potatodevs.cropsamarica.repositories.riceTypes.RiceTypeRepositoryImpl
 import com.potatodevs.cropsamarica.repositories.ricefield.RiceFieldRepository
@@ -69,6 +75,31 @@ abstract class RepositoryModule {
     abstract fun bindSurveyRepository(
         impl: SurveyRepositoryImpl
     ): SurveyRepository
+
+    @Binds
+    abstract fun bindReminderRepository(
+        impl: ReminderRepositoryImpl
+    ): ReminderRepository
+
+    @Binds
+    abstract fun LocaleManager(
+        impl: LocaleManagerImpl
+    ) : LocaleManager
+
+    @Binds
+    abstract fun bindNotificationRepository(
+        impl: NotificationRepositoryImpl
+    ): NotificationRepository
+
+    @Binds
+    abstract fun bindFileRepository(
+        impl: com.potatodevs.cropsamarica.repositories.file.FileRepositoryImpl
+    ): com.potatodevs.cropsamarica.repositories.file.FileRepository
+
+
+
+
+
 }
 
 

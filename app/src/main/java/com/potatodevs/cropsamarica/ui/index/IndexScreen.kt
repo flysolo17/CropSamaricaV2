@@ -31,10 +31,15 @@ import com.potatodevs.cropsamarica.ui.errors.UserNotFound
 import com.potatodevs.cropsamarica.ui.guide.GuideScreen
 import com.potatodevs.cropsamarica.ui.main.MainScreen
 import com.potatodevs.cropsamarica.ui.main.create_rice_field.CreateRiceFieldScreen
+import com.potatodevs.cropsamarica.ui.main.forecast.ForecastScreen
 import com.potatodevs.cropsamarica.ui.main.home.subscreens.survey.SurveyScreen
 import com.potatodevs.cropsamarica.ui.main.home.subscreens.view_crop.ViewCropScreen
+import com.potatodevs.cropsamarica.ui.main.pest.details.PestAndDiseaseDetailScreen
 import com.potatodevs.cropsamarica.ui.main.profile.ProfileScreen
+import com.potatodevs.cropsamarica.ui.notifications.NotificationScreen
+import com.potatodevs.cropsamarica.ui.notifications.view.ViewNotificationScreen
 import com.potatodevs.cropsamarica.ui.onboarding.OnboardingScreen
+import com.potatodevs.cropsamarica.ui.settings.SettingsScreen
 import com.potatodevs.cropsamarica.ui.theme.CropSamaricaTheme
 import com.potatodevs.cropsamarica.ui.utils.OneTimeEvents
 import com.potatodevs.cropsamarica.ui.utils.showToast
@@ -107,6 +112,16 @@ fun IndexScreen(
                             )
                         }
 
+
+                        is AppRouter.Settings -> NavEntry(key) {
+                            SettingsScreen (
+                                onBack = {
+                                    backStack.removeLastOrNull()
+                                }
+                            )
+                        }
+
+
                         is AppRouter.Auth -> NavEntry(key) {
                             AuthScreen(
                                 onNavigate = {
@@ -117,9 +132,32 @@ fun IndexScreen(
                                 }
                             )
                         }
+
+                        is AppRouter.Notification -> NavEntry(key) {
+                            NotificationScreen(
+                                onViewNotification = {
+                                    backStack.add(AppRouter.ViewNotification(it))
+                                },
+                                onBack = {
+                                    backStack.removeLastOrNull()
+                                }
+                            )
+                        }
+                        is AppRouter.ViewNotification -> NavEntry(key) {
+                            ViewNotificationScreen(
+                                id = key.id,
+                                onBack = {
+                                    backStack.removeLastOrNull()
+                                }
+                            )
+                        }
+
+
                         is AppRouter.Main.Index -> NavEntry(key) {
                             MainScreen(
-
+                                navigateToNotification = {
+                                    backStack.add(AppRouter.Notification)
+                                },
                                 uid = key.uid,
                                 onCreateRiceFIeld = {
                                     backStack.add(AppRouter.CreateRiceField)
@@ -134,8 +172,14 @@ fun IndexScreen(
                                 onViewCropReport = {id : String ->
                                     backStack.add(AppRouter.ViewCropReport(id))
                                 },
+                                onViewPestDetails = { id: String ->
+                                    backStack.add(AppRouter.Main.PestDetails(id))
+                                },
                                 onNextStage = { id : String ->
                                   backStack.add(AppRouter.SurveyScreen(id))
+                                },
+                                onWeatherClick = {
+                                    backStack.add(AppRouter.Forecast(it))
                                 }
                             )
                         }
@@ -150,6 +194,9 @@ fun IndexScreen(
 
                         is AppRouter.Main.Profile -> NavEntry(key) {
                             ProfileScreen(
+                                onViewSettings = {
+                                    backStack.add(AppRouter.Settings)
+                                },
                                 onViewDevelopers = {
                                     backStack.add(AppRouter.Main.Developer)
                                 },
@@ -208,6 +255,25 @@ fun IndexScreen(
                                 }
                             )
                         }
+
+                        is AppRouter.Forecast -> NavEntry(key) {
+                            ForecastScreen(
+                                id = key.id,
+                                onBack = {
+                                    backStack.removeLastOrNull()
+                                }
+                            )
+                        }
+                        is AppRouter.Main.PestDetails -> NavEntry(key)  {
+                            PestAndDiseaseDetailScreen(
+                                id = key.id,
+                                onBack = {
+                                    backStack.removeLastOrNull()
+                                },
+                            )
+                        }
+
+
 
 
 

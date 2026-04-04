@@ -120,7 +120,7 @@ class CreateRiceFieldViewModel @Inject constructor(
 
     private fun submit() {
         val data = state.value
-        val location = "${data.barangay}, ${data.municipality!!.name}, Mindoro"
+        val location = "${data.barangay}, ${data.municipality?.displayName}, Mindoro"
 
         val stage = data.plantedDate?.getRiceStage() ?: RiceStage.SEEDLING
         val harvestDate = data.plantedDate?.getHarvestDate(

@@ -18,8 +18,10 @@ fun JsonArray.asRecommendationToTasks(
 
         val title = obj["title"]?.jsonPrimitive?.content ?: "Farm Advisory"
         val details = obj["details"]?.jsonPrimitive?.content ?: ""
+        val amount = obj["amount"]?.jsonPrimitive?.content
         Task(
             fieldId = fieldId,
+            amount = amount,
             uid = uid,
             fertilizer = false,
             title = title,

@@ -33,11 +33,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.firebase.auth.PhoneAuthProvider
+import com.potatodevs.cropsamarica.R
 import com.potatodevs.cropsamarica.repositories.auth.AuthEventType
 import com.potatodevs.cropsamarica.ui.theme.CropSamaricaTheme
 
@@ -60,14 +62,18 @@ fun LoginPage(
     }
 
     Column(
-        modifier = modifier.fillMaxSize().padding(16.dp)
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth().onFocusChanged {
-                if (it.isFocused) {
-                    isPhoneTouch = true
-                }
-            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .onFocusChanged {
+                    if (it.isFocused) {
+                        isPhoneTouch = true
+                    }
+                },
             shape = MaterialTheme.shapes.medium,
             value = phone,
 
@@ -80,7 +86,7 @@ fun LoginPage(
                     Text("+63")
                 }
             },
-            label = { Text("Enter phone number") },
+            label = { Text(stringResource(R.string.enter_phone_number)) },
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Text
@@ -90,7 +96,7 @@ fun LoginPage(
             isError = isPhoneTouch && phone.length != 10 && !phone.startsWith("9"),
             supportingText = {
                 if (isPhoneTouch && (phone.length != 10 || !phone.startsWith("9"))) {
-                    Text("Invalid Phone Number", style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.error))
+                    Text(stringResource(R.string.invalid_phone_number), style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.error))
                 } else {
                     Text("Example: 9123456789", style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.onSurfaceVariant))
                 }
@@ -115,7 +121,7 @@ fun LoginPage(
                         strokeWidth = 2.dp
                     )
                 } else {
-                    Text("Login", style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.login), style = MaterialTheme.typography.titleMedium)
                 }
             }
         }

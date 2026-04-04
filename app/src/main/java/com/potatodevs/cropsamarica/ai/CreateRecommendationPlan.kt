@@ -21,7 +21,7 @@ private val DESCRIPTION = """
     CRITICAL: For every item in the 'fertilizer_action_plan', you MUST calculate the 
     exact 'date' by applying the math formula P + offset (where P is 'Date Planted'). 
     Do not use the current date for tasks. Format all dates as 'MMMM d, yyyy'.
-    Use the provided 'fertilizerReferenceTable' as the mandatory source of truth.
+    Use the provided '${fertilizerReferenceTable}' as the mandatory source of truth.
 """.trimIndent()
 
 val CREATE_RICE_FIELD_DECLARATION = FunctionDeclaration(
@@ -45,6 +45,7 @@ val CREATE_RICE_FIELD_DECLARATION = FunctionDeclaration(
                     "title" to Schema.string(description = "Action title, e.g., 'Apply 2 sacks of 14-14-14'."),
                     "stage" to Schema.string(description = "The corresponding RiceStage enum name (e.g., SEEDLING, TILLERING)."),
                     "type" to Schema.string(description = "The specific fertilizer name/type."),
+                    "amount" to Schema.string(description = "The amount of fertilizer to apply, e.g., '2 sacks'."),
                     "date" to Schema.string(description = "Calculated date based on planting start date and the scheduled timing."),
                     "purpose" to Schema.string(
                         nullable = true,

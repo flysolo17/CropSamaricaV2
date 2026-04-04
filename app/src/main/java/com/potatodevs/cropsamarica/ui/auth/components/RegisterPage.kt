@@ -36,6 +36,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -143,7 +144,9 @@ fun RegisterPage(
             onValueChange = {
                 events(AuthEvents.RegisterEvents.OnPhoneChange(it))
             },
-            label = { Text("Phone") },
+            label = { Text(
+                stringResource(R.string.enter_phone_number)
+            ) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone, imeAction = ImeAction.Done),
             shape = shape,
             modifier = width,
@@ -152,7 +155,7 @@ fun RegisterPage(
             colors = colors,
             supportingText = {
                 if (isPhoneValid) {
-                    Text("Invalid Phone Number", style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.error))
+                    Text(stringResource(R.string.invalid_phone_number), style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.error))
                 } else {
                     Text("Example: 9123456789", style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.onSurfaceVariant))
                 }
@@ -181,7 +184,7 @@ fun RegisterPage(
                         strokeWidth = 2.dp
                     )
                 } else {
-                    Text("Register", style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.register), style = MaterialTheme.typography.titleMedium)
                 }
             }
 

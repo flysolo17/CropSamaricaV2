@@ -1,13 +1,9 @@
 package com.potatodevs.cropsamarica.models.tasks
 
 import com.potatodevs.cropsamarica.models.rice.RiceStage
-import kotlinx.serialization.json.JsonArray
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
-import java.text.SimpleDateFormat
+
 import java.util.Date
-import java.util.Locale
+
 
 
 data class Task(
@@ -16,7 +12,7 @@ data class Task(
     var fieldId: String = "",
     val fertilizer : Boolean ? = null,
     val type : String ? = null,
-
+    val amount : String ? = null,
     val title: String = "",
     val description: String = "",
     val stage : RiceStage = RiceStage.SEEDLING,

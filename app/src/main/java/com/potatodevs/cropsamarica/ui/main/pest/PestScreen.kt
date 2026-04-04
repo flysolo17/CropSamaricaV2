@@ -39,6 +39,7 @@ fun PestScreen(
         isLoading = state.isLoading,
         pests = state.pests,
         onViewDetails = onViewDetails,
+        language = state.language
     )
 
 }
@@ -48,7 +49,7 @@ fun PestScreen(
     isLoading: Boolean,
     pests: List<PestAndDisease>,
     onViewDetails: (String) -> Unit,
-
+    language : String
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -102,6 +103,7 @@ fun PestScreen(
                     ) {
                         filteredPestAndDiseases.forEach {
                             PestAndDiseaseItem(
+                                language = language,
                                 pestAndDisease = it,
                                 isLoading = isLoading,
                                 onClick = {

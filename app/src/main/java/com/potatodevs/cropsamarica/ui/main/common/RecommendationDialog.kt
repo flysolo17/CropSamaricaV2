@@ -48,7 +48,8 @@ fun RecommendationDialog(
     onCreateTask: (List<Task>) -> Unit
 ) {
     // Start empty so the user explicitly chooses what to add
-    var selectedTasks by remember { mutableStateOf(setOf<Task>()) }
+    val fertilizerTasks = tasks.filter { it.fertilizer == true }
+    var selectedTasks by remember { mutableStateOf(fertilizerTasks.toSet()) }
 
     Dialog(
         onDismissRequest = { /* No-op */ },

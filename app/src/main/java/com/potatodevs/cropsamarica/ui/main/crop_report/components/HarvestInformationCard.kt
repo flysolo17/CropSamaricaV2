@@ -1,7 +1,7 @@
-package com.potatodevs.cropsamarica.ui.main.home.subscreens.view_crop.components
+package com.potatodevs.cropsamarica.ui.main.crop_report.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
@@ -37,7 +37,7 @@ fun HarverInformationCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
                 "Harvest Information", style = MaterialTheme.typography.titleMedium.copy(
@@ -55,5 +55,4 @@ fun HarverInformationCard(
             Text("Approx Total Sacks : ${sacks} sacks", style = bodyMedium)
         }
     }
-
 }

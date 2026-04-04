@@ -36,6 +36,10 @@ interface TaskRepository {
         id : String,
     ) : Result<List<Task>>
 
+    suspend fun getFertilizerTasks(
+        ids : List<String>,
+    ) : Result<List<Task>>
+
 
 
 }

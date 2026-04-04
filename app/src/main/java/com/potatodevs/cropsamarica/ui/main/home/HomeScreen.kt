@@ -1,5 +1,6 @@
 package com.potatodevs.cropsamarica.ui.main.home
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.potatodevs.cropsamarica.R
+import com.potatodevs.cropsamarica.models.NotificationStatus
+import com.potatodevs.cropsamarica.models.Notifications
 import com.potatodevs.cropsamarica.models.User
 import com.potatodevs.cropsamarica.models.rice.RiceField
 import com.potatodevs.cropsamarica.models.rice.RiceFieldWithRiceType
@@ -48,6 +51,8 @@ import com.potatodevs.cropsamarica.ui.theme.shimmer
 import com.potatodevs.cropsamarica.ui.utils.getRiceStage
 import com.potatodevs.cropsamarica.ui.utils.showToast
 import java.util.Date
+import kotlin.compareTo
+import kotlin.toString
 
 @Composable
 fun HomeScreen(
@@ -55,11 +60,13 @@ fun HomeScreen(
     onViewProfile : () -> Unit,
     isLoading : Boolean,
     selectedRiceField: RiceFieldWithRiceType? = null,
-    riceFields : List<RiceFieldWithRiceType> = emptyList(),
+    user : User? = null,
     onCreateRiceField : () -> Unit,
     toggleDrawer : () -> Unit,
     navigateToCropReports : (id : String) -> Unit,
     onNextStage : (id : String) -> Unit,
+    navigateToWeather : (id : String) -> Unit,
+    navigateToNotification : () -> Unit,
     viewModel : HomeViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -81,18 +88,24 @@ fun HomeScreen(
             ))
         }
     }
+
     HomeScreen(
+        navigateToNotification = navigateToNotification,
         toggleDrawer = toggleDrawer,
         onViewProfile = onViewProfile,
         onCreateRiceField = onCreateRiceField,
         modifier = modifier,
         isLoading = isLoading,
+        user = user,
         selectedRiceField = selectedRiceField,
         weather = state.weather,
+        notifications = state.notifications,
         tasks = state.tasks,
         onViewRiceField = {
             navigateToCropReports(it)
         },
+        language = state.language,
+        navigateToWeather = navigateToWeather,
         announcements = state.announcement,
         onNextStage = onNextStage
     )
@@ -102,14 +115,19 @@ fun HomeScreen(
 fun HomeScreen(
     toggleDrawer : () -> Unit,
     onViewProfile : () -> Unit,
+    navigateToWeather : (id : String) -> Unit,
     modifier: Modifier = Modifier,
     onCreateRiceField : () -> Unit,
     isLoading : Boolean,
+    user : User?,
+    notifications : List<Notifications>,
     selectedRiceField : RiceFieldWithRiceType?,
     weather : WeatherState,
     tasks : TaskState,
     announcements : AnnouncementState,
+    language : String,
     onViewRiceField : (id : String) -> Unit,
+    navigateToNotification : () -> Unit,
     onNextStage : (id : String) -> Unit
 ) {
     if (!isLoading && selectedRiceField == null) {
@@ -139,7 +157,8 @@ fun HomeScreen(
 
                     ProfileImage(
                         modifier = Modifier.shimmer(shimmering = isLoading, shape = CircleShape),
-                        profile = "",
+                        profile = user?.profile,
+                        name = user?.name ?: "Unknown User",
                         imageSize = 40.dp,
                         onClick = {
                             onViewProfile()
@@ -169,13 +188,25 @@ fun HomeScreen(
                         verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
+                        val badgeCount = notifications.filter {
+                            it.status == NotificationStatus.unseen.name
+                        }.size
                         BadgedBox(
                             badge = {
+                                Badge {
+                                    if (badgeCount > 0) {
+                                        Badge {
+                                            Text(badgeCount.toString())
+                                        }
+                                    }
+                                }
 
                             }
                         ) {
                             IconButton(
-                                onClick = {},
+                                onClick = {
+                                    navigateToNotification()
+                                },
                                 modifier = Modifier.shimmer(shimmering = isLoading, shape = CircleShape)
                             ) {
                                 Icon(
@@ -184,18 +215,22 @@ fun HomeScreen(
                                 )
                             }
                         }
+
                         ProfileImage(
                             modifier = Modifier.shimmer(shimmering = isLoading, shape = CircleShape),
-                            profile = "",
+                            profile = user?.profile,
+                            name = user?.name ?: "Unknown User",
                             imageSize = 40.dp,
-                            onClick = onViewProfile
+                            onClick = {
+                                onViewProfile()
+                            }
                         )
                     }
                 }
             }
             item {
                 AnnouncementCard(
-                    language = "en",
+                    language = language,
                     isLoading = announcements.isLoading || isLoading,
                     announcement = announcements.announcement
                 )
@@ -206,6 +241,7 @@ fun HomeScreen(
                     modifier = Modifier.shimmer(shimmering = weather.isLoading || isLoading, shape = MaterialTheme.shapes.large),
                     weather = weather.weather,
                     onClick = {
+                        navigateToWeather(selectedRiceField?.riceField?.id.orEmpty())
                     }
                 )
             }

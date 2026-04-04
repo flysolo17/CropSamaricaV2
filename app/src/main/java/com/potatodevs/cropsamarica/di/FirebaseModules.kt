@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.potatodevs.cropsamarica.ai.CREATE_ANNOUNCEMENT
+import com.potatodevs.cropsamarica.ai.CREATE_REMINDER
 import com.potatodevs.cropsamarica.ai.CREATE_RICE_FIELD_DECLARATION
 
 import com.potatodevs.cropsamarica.ai.SURVEY_GENERATION_DECLARATION
@@ -63,9 +64,11 @@ object FirebaseModules {
                         functionDeclarations = listOf(
                             CREATE_RICE_FIELD_DECLARATION,
                             SURVEY_GENERATION_DECLARATION,
-                            CREATE_ANNOUNCEMENT
+                            CREATE_ANNOUNCEMENT,
+                            CREATE_REMINDER,
                         )
-                    )
+                    ),
+
                 ),
                 toolConfig = ToolConfig(
                     functionCallingConfig = FunctionCallingConfig.auto(),

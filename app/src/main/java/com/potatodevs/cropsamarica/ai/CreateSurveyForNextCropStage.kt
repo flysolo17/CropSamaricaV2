@@ -17,7 +17,7 @@ val SURVEY_GENERATION_DECLARATION = FunctionDeclaration(
     name = SURVEY_GENERATION,
     description = SURVEY_DESCRIPTION,
     parameters = mapOf(
-        "survey_goal" to Schema.string(description = "The goal of the survey"),
+        "survey_goal" to Schema.string(description = "The purpose or goal of this survey"),
         "questions" to Schema.array(
             Schema.obj(
                 mapOf(
@@ -26,8 +26,7 @@ val SURVEY_GENERATION_DECLARATION = FunctionDeclaration(
                         QuestionType.entries.map { it.name },
                         description = "Type of question"
                     ),
-                    // Make options nullable or an empty array to prevent malformed calls
-                    "options" to Schema.array(Schema.string(), nullable = true)
+                    "options" to Schema.array(Schema.string(), description = "List of options for multiple choice or single choice questions. Leave empty for other types.", nullable = true)
                 )
             )
         )

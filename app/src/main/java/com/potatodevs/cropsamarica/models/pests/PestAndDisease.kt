@@ -1,6 +1,7 @@
 package com.potatodevs.cropsamarica.models.pests
 
 import com.potatodevs.cropsamarica.models.rice.RiceStage
+import kotlinx.serialization.Serializable
 
 
 fun LocalizeText.locale(
@@ -12,6 +13,8 @@ fun LocalizeText.locale(
         this.tl
     }
 }
+
+@Serializable
 data class LocalizeText(
     val en : String = "",
     val tl : String = ""

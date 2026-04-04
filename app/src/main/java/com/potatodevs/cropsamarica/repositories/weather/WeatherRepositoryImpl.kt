@@ -2,6 +2,7 @@ package com.potatodevs.cropsamarica.repositories.weather
 
 import android.util.Log
 import com.potatodevs.cropsamarica.models.weather.DailyForecast
+import com.potatodevs.cropsamarica.models.weather.SevenDayWeatherResponse
 import com.potatodevs.cropsamarica.models.weather.WeatherApiResponse
 import com.potatodevs.cropsamarica.models.weather.toDailyForecastUI
 import com.potatodevs.cropsamarica.service.WeatherApiService
@@ -38,6 +39,27 @@ class WeatherRepositoryImpl @Inject constructor(
             Log.d(TAG, "getDailyForecast: ${e.message}")
             Result.failure(e)
         }
+    }
+
+    override suspend fun getSevenDayWeather(location: String): Result<SevenDayWeatherResponse> {
+        return try {
+            val response = weatherApiService.getSevenDayWeatherForecast(location)
+            if (response.isSuccessful) {
+                val weather = response.body()
+                if (weather != null) {
+                    Result.success(weather)
+                } else {
+                    Result.failure(Exception("Weather data is null"))
+                }
+            } else {
+                Result.failure(Exception("Failed to fetch weather data"))
+            }
+        }
+        catch (e : Exception) {
+            Result.failure(e)
+        }
+
+
     }
 
 

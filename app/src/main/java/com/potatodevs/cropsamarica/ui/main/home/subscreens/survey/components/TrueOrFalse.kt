@@ -27,7 +27,7 @@ fun TrueOrFalse(
 ) {
     val options = listOf(false, true)
     Card(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth().padding(8.dp)
     ) {
         Column(
             modifier = modifier

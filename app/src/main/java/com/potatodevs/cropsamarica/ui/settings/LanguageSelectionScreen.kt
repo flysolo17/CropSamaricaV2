@@ -18,23 +18,49 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.potatodevs.cropsamarica.R
+import com.potatodevs.cropsamarica.datastore.LocaleManager
+import com.potatodevs.cropsamarica.datastore.LocaleManagerImpl
+import com.potatodevs.cropsamarica.restartApp
+import com.potatodevs.cropsamarica.ui.utils.OneTimeEvents
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LanguageSelectionScreen(
-    viewModel: LanguageViewModel = hiltViewModel(),
-    onNext: () -> Boolean
-) {
-    val language by viewModel.language.collectAsState()
 
+    onNext: () -> Boolean,
+     viewModel: SettingsViewModel = hiltViewModel()
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val events = viewModel::events
+    val oneTimeEvents = viewModel.oneTimeEvents
+    val context = LocalContext.current
+    LaunchedEffect(key1 = oneTimeEvents) {
+        oneTimeEvents.collect {
+            when(it) {
+                is OneTimeEvents.Navigate -> {
+                    onNext()
+                }
+                OneTimeEvents.NavigateBack -> {
+                    onNext()
+                }
+                is OneTimeEvents.ShowToast -> {
+
+                }
+            }
+        }
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -43,28 +69,30 @@ fun LanguageSelectionScreen(
         }
     ) { padding ->
 
+
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
             LanguageItem(
                 text = "English",
-                selected = language == "en",
+                selected = state.language == "en",
                 onClick = {
-                    viewModel.changeLanguage("en")
+                    events(SettingsEvents.OnLanguageChanged("en"))
                     onNext()
                 }
             )
 
             LanguageItem(
                 text = "Filipino",
-                selected = language == "fil",
+                selected = state.language == "tl",
                 onClick = {
-                    viewModel.changeLanguage("fil")
+                    events(SettingsEvents.OnLanguageChanged("tl"))
                     onNext()
                 }
             )

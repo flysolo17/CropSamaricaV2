@@ -48,4 +48,14 @@
     <string name="settings">Mga Setting</string>
 
     <string name="select_language">Pumili ng Linguahe</string>
+    <string name="edit_profile">Baguhin Ang Profile</string>
+    <string name="reports">Reports</string>
+    <string name="crop_report">Crop Report</string>
+    <string name="enter_phone_number">Ilagay ang numero ng telepono</string>
+    <string name="invalid_phone_number">Hindi wastong numero ng telepono</string>
+    <string name="verify">Beripikahin</string>
+    <string name="verify_phone">Beripikahin ang numero ng telepono</string>
+    <string name="didn_t_receive_a_code">Hindi nakatanggap ng code?</string>
+    <string name="code_has_been_sent_to">Naipadala na ang code sa %1$s</string>
+    <string name="resend_code">Magpadala muli ng code</string>
 </resources>

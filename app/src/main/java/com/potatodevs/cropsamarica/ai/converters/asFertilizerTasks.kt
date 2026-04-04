@@ -24,7 +24,7 @@ fun JsonArray.asFertilizerTasks(
         val title = obj["title"]?.jsonPrimitive?.content ?: "Application Task"
         val purpose = obj["purpose"]?.jsonPrimitive?.content ?: ""
         val type = obj["type"]?.jsonPrimitive?.content ?: ""
-
+        val amount = obj["amount"]?.jsonPrimitive?.content ?: ""
         val rawDate = obj["date"]?.jsonPrimitive?.content ?: ""
         val stageString = obj["stage"]?.jsonPrimitive?.content ?: "SEEDLING"
 
@@ -38,6 +38,7 @@ fun JsonArray.asFertilizerTasks(
             fertilizer = true,
             title = title,
             type = type,
+            amount = amount,
             description = purpose,
             stage = taskStage,
             status = TaskStatus.PENDING,

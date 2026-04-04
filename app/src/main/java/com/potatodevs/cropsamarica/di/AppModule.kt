@@ -2,7 +2,7 @@ package com.potatodevs.cropsamarica.di
 
 import android.content.Context
 import com.potatodevs.cropsamarica.datastore.FieldDataStore
-import com.potatodevs.cropsamarica.datastore.LanguageDataStore
+
 import com.potatodevs.cropsamarica.service.WeatherApiService
 import dagger.Module
 import dagger.Provides
@@ -20,12 +20,12 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+
     @Provides
     @Singleton
-    fun provideLanguageDataStore(
+    fun provideContext(
         @ApplicationContext context: Context
-    ): LanguageDataStore = LanguageDataStore(context)
-
+    ) : Context = context
 
     @Provides
     @Singleton

@@ -38,10 +38,11 @@ class SurveyViewModel
                 answerChanged(e.index, e.answer)
             }
             is SurveyEvents.OnImageChange -> {
-                val updatedList = _state.value.selectedImage.toMutableList().apply {
-                    add(e.image)
+                this._state.update { currentState ->
+                    currentState.copy(
+                        selectedImage = currentState.selectedImage + e.image
+                    )
                 }
-                _state.value = _state.value.copy(selectedImage = updatedList)
             }
 
             SurveyEvents.OnSubmit -> {
@@ -102,6 +103,7 @@ class SurveyViewModel
                     currentState.copy(
                         isLoading = false,
                         recommendations = it
+
                     )
                 }
 

@@ -19,4 +19,8 @@ sealed interface HomeEvents {
         val weather: DailyForecast
     ) : HomeEvents
 
+    data class OnGetMyNotification(
+        val uid : String
+    ) : HomeEvents
+
 }

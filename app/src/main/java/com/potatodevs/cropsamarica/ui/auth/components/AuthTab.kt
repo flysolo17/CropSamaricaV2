@@ -11,8 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.potatodevs.cropsamarica.R
 
 
 @Composable
@@ -32,7 +34,7 @@ fun AuthTab(
         indicator = { }, // remove default underline indicator
         divider = { }    // remove divider
     ) {
-        listOf("Login", "Register").forEachIndexed { index, title ->
+        listOf(stringResource(R.string.login), stringResource(R.string.register)).forEachIndexed { index, title ->
             Tab(
                 selected = selectedPage == index,
                 onClick = {

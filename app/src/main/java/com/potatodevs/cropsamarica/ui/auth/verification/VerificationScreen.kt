@@ -36,13 +36,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.firebase.auth.PhoneAuthProvider
+import com.potatodevs.cropsamarica.R
 import com.potatodevs.cropsamarica.ui.theme.CropSamaricaTheme
 
 
@@ -93,7 +96,8 @@ fun VerificationScreen(
                             color = MaterialTheme.colorScheme.primary
                         )
                     } else {
-                        Text("Verify",
+                        Text(
+                            stringResource(R.string.verify),
                             style = MaterialTheme.typography.titleMedium,
                         )
                     }
@@ -113,8 +117,8 @@ fun VerificationScreen(
             ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Verify phone", style = MaterialTheme.typography.headlineMedium)
-            Text("Code has been sent to ${phone}")
+            Text(stringResource(R.string.verify_phone), style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
+            Text(stringResource(R.string.code_has_been_sent_to, phone))
             BasicTextField(
                 singleLine = true,
                 maxLines = 1,
@@ -163,7 +167,7 @@ fun VerificationScreen(
             Spacer(
                 modifier = Modifier.height(12.dp)
             )
-            Text("Didn't receive a code?")
+            Text(stringResource(R.string.didn_t_receive_a_code))
             TextButton(
                 onClick = { onResendCode() },
                 enabled = timer == 0L
@@ -171,7 +175,7 @@ fun VerificationScreen(
                 val text = if (timer > 0) {
                     "${timer}s"
                 } else {
-                    "Resend Code"
+                    stringResource(R.string.resend_code)
                 }
                 Text(text = text)
             }

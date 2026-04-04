@@ -56,6 +56,7 @@ import com.potatodevs.cropsamarica.ui.utils.showToast
 fun ProfileScreen(
     modifier: Modifier = Modifier,
     onBack : () -> Unit,
+    onViewSettings : () -> Unit,
     onViewDevelopers : () -> Unit,
     viewModel: ProfileViewModel = hiltViewModel(),
     onLogout : () -> Unit,
@@ -95,6 +96,7 @@ fun ProfileScreen(
         }
         else -> {
             ProfileScreen(
+                onViewSettings = onViewSettings,
                 modifier = modifier,
                 onViewDevelopers = onViewDevelopers,
                 onBack = onBack,
@@ -109,6 +111,7 @@ fun ProfileScreen(
 
 @Composable
 fun ProfileScreen(
+    onViewSettings : () -> Unit,
     modifier: Modifier = Modifier,
     onViewDevelopers : () -> Unit,
     onBack : () -> Unit,
@@ -269,7 +272,7 @@ fun ProfileScreen(
                 icon = Icons.Filled.Settings,
                 title = stringResource(R.string.settings),
                 onClick = {
-
+                    onViewSettings()
                 }
             )
             Button(

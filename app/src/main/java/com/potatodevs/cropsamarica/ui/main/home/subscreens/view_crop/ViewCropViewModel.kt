@@ -6,86 +6,77 @@ import com.potatodevs.cropsamarica.repositories.auth.AuthRepository
 import com.potatodevs.cropsamarica.repositories.ricefield.RiceFieldRepository
 import com.potatodevs.cropsamarica.repositories.tasks.TaskRepository
 import com.potatodevs.cropsamarica.repositories.user.UserRepository
+import com.potatodevs.cropsamarica.ui.utils.OneTimeEvents
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 
 @HiltViewModel
 class ViewCropViewModel @Inject constructor(
     private val riceFieldRepository: RiceFieldRepository,
-    private val userRepository: UserRepository,
+
     private val taskRepository: TaskRepository,
 ): ViewModel() {
     private var _state = MutableStateFlow(ViewCropState())
     val state : StateFlow<ViewCropState> = _state.asStateFlow()
+    private var _oneTimeEvents = Channel<OneTimeEvents>()
+    val oneTimeEvents = _oneTimeEvents.receiveAsFlow()
 
-    init {
-        getFarmer()
-    }
     fun events(e : ViewCropEvents) {
         when(e) {
-            is ViewCropEvents.OnGetCrop -> {
-                getCrop(e.id)
-
-            }
-
-            ViewCropEvents.OnGetFarmer -> getFarmer()
-            is ViewCropEvents.OnGetTasks -> getTasks(e.id)
-        }
-    }
-
-    private fun getTasks(id: String) {
-        viewModelScope.launch {
-            _state.value = _state.value.copy(
-                tasks = _state.value.tasks.copy(isLoading = true)
+            is ViewCropEvents.GetRiceField -> initializeData(
+                riceFieldId = e.riceFieldId
             )
-            taskRepository.getFertilizerApplications(id).onSuccess {
-                _state.value = _state.value.copy(
-                    tasks = _state.value.tasks.copy(
-                        isLoading = false,
-                        tasks = it
-                    )
-                )
-            }
+
+            is ViewCropEvents.OnStageSelected -> _state.value = _state.value.copy(
+                selectedTab = e.stage
+            )
+
+            is ViewCropEvents.OnDeleteCrop -> deleteCrop(e.id)
         }
     }
 
-    private fun getCrop(id: String) {
+    private fun deleteCrop(id: String) {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
-            riceFieldRepository.getById(id).onSuccess {
-                _state.value = _state.value.copy(
-                    isLoading = false,
-                    crop = it
-                )
-            }
-        }
-    }
-    private fun getFarmer() {
-        viewModelScope.launch {
-            _state.value = _state.value.copy(
-                farmer = _state.value.farmer.copy(isLoading = true)
-            )
-
-            userRepository.getFarmer().onSuccess {
-                _state.value = _state.value.copy(
-                    farmer = _state.value.farmer.copy(
-                        isLoading = false,
-                        user = it
-                    )
-                )
+            riceFieldRepository.deleteCropField(id).onSuccess {
+                _state.value = _state.value.copy(isLoading = false)
+                _oneTimeEvents.send(OneTimeEvents.ShowToast(it))
+                _oneTimeEvents.send(OneTimeEvents.NavigateBack)
             }.onFailure {
-                _state.value = _state.value.copy(
-                    farmer = _state.value.farmer.copy(
-                        isLoading = false
-                    )
-                )
+                _state.value = _state.value.copy(isLoading = false)
+                _oneTimeEvents.send(OneTimeEvents.ShowToast(it.message.toString()))
             }
         }
+    }
+
+    private fun initializeData(riceFieldId: String) {
+        viewModelScope.launch {
+            _state.value = _state.value.copy(isLoading = true)
+           riceFieldRepository.getById(riceFieldId).onSuccess {
+               _state.value = _state.value.copy(
+                   isLoading = false,
+                   riceField = it
+               )
+           }.onFailure {
+               _state.value = _state.value.copy(isLoading = false)
+           }
+
+        }
+
+
 
     }
+
+
 }

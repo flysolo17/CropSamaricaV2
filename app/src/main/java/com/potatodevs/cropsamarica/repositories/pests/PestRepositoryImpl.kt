@@ -11,7 +11,10 @@ class PestRepositoryImpl @Inject constructor(
 ) : PestRepository {
 
     private val pestsCollection = firestore.collection(PESTS_COLLECTION)
+    private val pests = mutableListOf<PestAndDisease>()
+    fun setPests(pests: List<PestAndDisease>) {
 
+    }
     override suspend fun getAllPests(): Result<List<PestAndDisease>> {
         return try {
             val snapshot = pestsCollection.get().await()

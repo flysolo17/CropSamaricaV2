@@ -3,10 +3,12 @@ package com.potatodevs.cropsamarica.ui.main.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.potatodevs.cropsamarica.datastore.FieldDataStore
+import com.potatodevs.cropsamarica.datastore.LocaleManager
 import com.potatodevs.cropsamarica.models.rice.RiceFieldWithRiceType
 import com.potatodevs.cropsamarica.models.rice.RiceStage
 import com.potatodevs.cropsamarica.models.weather.DailyForecast
 import com.potatodevs.cropsamarica.models.weather.toDailyForecastUI
+import com.potatodevs.cropsamarica.repositories.notification.NotificationRepository
 import com.potatodevs.cropsamarica.repositories.ricefield.RiceFieldRepository
 import com.potatodevs.cropsamarica.repositories.tasks.TaskRepository
 import com.potatodevs.cropsamarica.repositories.weather.WeatherRepository
@@ -30,10 +32,23 @@ class HomeViewModel @Inject constructor(
     private val  fieldDataStore: FieldDataStore,
     private val riceFieldRepository: RiceFieldRepository,
     private val weatherRepository: WeatherRepository,
-    private val taskRepository: TaskRepository
+    private val taskRepository: TaskRepository,
+    private val notificationRepository: NotificationRepository,
+    localeManager: LocaleManager,
 ): ViewModel() {
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
+    init {
+        localeManager.getSavedLanguageCode()
+            .onEach { languageCode ->
+                _state.update {
+                    it.copy(
+                        language = languageCode
+                    )
+                }
+            }
+            .launchIn(viewModelScope)
+    }
     fun events(e : HomeEvents) {
         when(e) {
             is HomeEvents.OnGetWeather -> {
@@ -45,7 +60,18 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeEvents.OnGetAnnouncemnt -> getAnnouncement(e.riceFieldWithRiceType, e.weather)
+            is HomeEvents.OnGetMyNotification -> getNotification(e.uid)
         }
+    }
+
+    private fun getNotification(uid: String) {
+        notificationRepository.getAllMyNotifications(uid).onEach {
+            _state.update {
+               it.copy(
+                   notifications = it.notifications
+               )
+            }
+        }.launchIn(viewModelScope)
     }
 
     private fun getAnnouncement(

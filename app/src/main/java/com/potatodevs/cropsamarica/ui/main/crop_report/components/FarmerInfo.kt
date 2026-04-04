@@ -1,4 +1,4 @@
-package com.potatodevs.cropsamarica.ui.main.home.subscreens.view_crop.components
+package com.potatodevs.cropsamarica.ui.main.crop_report.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.potatodevs.cropsamarica.CropSamarica
+import com.potatodevs.cropsamarica.ui.main.crop_report.FarmerState
 import com.potatodevs.cropsamarica.ui.main.home.components.ProfileImage
-import com.potatodevs.cropsamarica.ui.main.home.subscreens.view_crop.FarmerState
+
 import com.potatodevs.cropsamarica.ui.theme.CropSamaricaTheme
 import com.potatodevs.cropsamarica.ui.theme.shimmer
 

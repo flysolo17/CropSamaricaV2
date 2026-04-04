@@ -6,7 +6,6 @@ import com.potatodevs.cropsamarica.models.weather.BulkLocation
 import com.potatodevs.cropsamarica.models.weather.SevenDayWeatherResponse
 import com.potatodevs.cropsamarica.models.weather.WeatherApiResponse
 import com.potatodevs.cropsamarica.models.weather.WeatherBulkApiResponse
-import kotlinx.serialization.Serializable
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

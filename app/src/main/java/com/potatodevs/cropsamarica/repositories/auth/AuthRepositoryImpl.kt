@@ -15,7 +15,10 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.potatodevs.cropsamarica.models.User
 import com.potatodevs.cropsamarica.repositories.user.UserRepository
 import com.potatodevs.cropsamarica.ui.utils.USERS_COLLECTION
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -148,6 +151,27 @@ class AuthRepositoryImpl @Inject constructor(
             Result.success("Logged out successfully")
         } catch (e: Exception) {
             Result.failure(e)
+        }
+    }
+
+    override  fun listenToUser(): Flow<User?> {
+        if (auth.currentUser == null) {
+            return callbackFlow {
+                trySend(null)
+                awaitClose {  }
+            }
+        }
+        return callbackFlow {
+            val listener = userCollection.document(auth.currentUser!!.uid)
+                .addSnapshotListener { snapshot, error ->
+                    if (error != null) {
+                        close(error)
+                        return@addSnapshotListener
+                    }
+                    trySend(snapshot?.toObject(User::class.java))
+
+                }
+            awaitClose { listener.remove() }
         }
     }
 }
