@@ -278,7 +278,11 @@ fun HomeScreen(
                     )
                 )
             }
-            items(tasks.tasks, key = {it.id}) {
+            val sortedByFertilizer = tasks.tasks
+                .sortedWith(compareByDescending<Task> { it.fertilizer }
+                    .thenBy { it.startDate })
+
+            items(sortedByFertilizer, key = {it.id}) {
                 TaskCard(
                     task = it,
                     isLoading = tasks.isLoading || isLoading,
